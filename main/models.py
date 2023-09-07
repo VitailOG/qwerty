@@ -16,9 +16,6 @@ class CustomUser(AbstractUser):
 
 class CommentQuerySet(models.QuerySet):
 
-    def limit(self):
-        return self.filter()
-
     def get_orphaned_items(self, order_by: str):
         return (
             self

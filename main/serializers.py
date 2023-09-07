@@ -9,8 +9,7 @@ from rest_captcha.serializers import RestCaptchaSerializer
 from main.models import Comment
 
 
-# class CreateCommentSerializer(RestCaptchaSerializer, serializers.ModelSerializer):
-class CreateCommentSerializer(serializers.ModelSerializer):
+class CreateCommentSerializer(RestCaptchaSerializer, serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = (
@@ -19,8 +18,8 @@ class CreateCommentSerializer(serializers.ModelSerializer):
             'file',
             'author',
             'parent',
-            # 'captcha_key',
-            # 'captcha_value'
+            'captcha_key',
+            'captcha_value'
         )
 
     def validate_text(self, value):
@@ -61,7 +60,7 @@ class AuthorSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    parent = ParentCommentSerializer()
+    parent = ParentCommentSerializer(allow_null=True)
     author = AuthorSerializer()
     children = RecursiveSerializer(many=True, required=False)
 
@@ -71,6 +70,7 @@ class CommentSerializer(serializers.ModelSerializer):
             'id',
             'children',
             'parent',
+            'file',
             'author',
             'text'
         )
